@@ -49,6 +49,7 @@ interface TemplatePageProps {
       <div className={styles.sidebar}>
         <h2>Templates</h2>
         <ul>
+          <li className={styles.usecase}>By use case</li>
           <li  onClick={() => handleItemClick('All')}
             style={currentItem === 'All' ? getItemStyles() : {}}>All</li>
           <li  onClick={() => handleItemClick('Basic')}
