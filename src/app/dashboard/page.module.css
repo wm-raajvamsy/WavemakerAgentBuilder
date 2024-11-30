@@ -73,7 +73,7 @@
     cursor: pointer;
   }
   .sidebarItem2.active { 
-    background-color: #d3d3d3; 
+    background-color: rgba(211, 211, 211, 0.5);
     border-radius: 10px; 
 }
   .sidebarItem3 {
@@ -131,9 +131,10 @@
     align-items: center;
     padding: 10px;
     cursor: pointer;
+
   }
   .sidebarItem4.active, .sidebarItem5.active { 
-    background-color: #d3d3d3; border-radius: 10px; 
+    background-color: rgba(211, 211, 211, 0.5); border-radius: 10px; 
 }
   .sidebarItem6 {
     display: flex;
@@ -173,6 +174,11 @@
     width: 14px;
     margin-right: 20px;
   }
+  .profileimage2 {
+    height: 14px;
+    width: 14px;
+    margin-right: 10px;
+  }
   .eastarrowimage {
     height: 10px;
     width: 14px;
@@ -192,7 +198,13 @@
     flex: 1;
     margin: 30px;
   }
-  
+  .database {
+    flex: 1;
+    margin: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .header {
     flex: 1;
     display: flex;
@@ -244,13 +256,51 @@
     cursor: pointer;
     height: 20px;
   }
-  
+  .getStartedButton {
+     padding: 5px;
+     padding-bottom: 20px;
+     background-color: #000000;
+     color: #fff;
+     border: none;
+     border-radius: 5px;
+     cursor: pointer;
+     height: 20px;
+     margin-top: 20px;
+    }
+
   .projectCard {
     border: 1px solid #ccc;
     padding: 20px;
     margin-bottom: 20px;
     width: 30%;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  .projectCard:hover {
+    transform: scale(1.05);
+  }
+  .documentCard {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+    width: 30%;
+    height: 200px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .documentCard:hover {
+    transform: scale(1.05);
+  }
+  .documentTitle {
+    margin-top: 40px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .documentDetails {
+    display: flex;
+    justify-content: center;
   }
   .cardheader {
     display: flex;
@@ -270,7 +320,7 @@
   }
   .projectDetails {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
   }
   
   .aiIcon {
@@ -281,7 +331,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 10px;
+    margin-right: 180px;
     color: #000000;
   }
   

@@ -1,19 +1,58 @@
 'use client'
 import React from 'react';
 import styles from './page.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Connections from '../Connections/page';
-
+import TemplatePage from '../dialogs/page';
 
 function Dashboard() {
   const [activeItem, setActiveItem] = useState('All'); 
-  const handleClick = (item) => { setActiveItem(item); };
+  const [showTemplatePage, setShowTemplatePage] = useState(false); 
+  const [lastClickedTime, setLastClickedTime] = useState<Date | null>(null); 
+  const [timeAgo, setTimeAgo] = useState<string>('Just now');
+  useEffect(() => {
+    if (lastClickedTime) {
+      const interval = setInterval(() => {
+        const now = new Date();
+        const diffInSeconds = Math.floor((now.getTime() - lastClickedTime.getTime()) / 1000);
+  
+        if (diffInSeconds < 60) {
+          setTimeAgo(`${diffInSeconds} seconds ago`);
+        } else if (diffInSeconds < 3600) {
+          setTimeAgo(`${Math.floor(diffInSeconds / 60)} minutes ago`);
+        } else if (diffInSeconds < 86400) {
+          setTimeAgo(`${Math.floor(diffInSeconds / 3600)} hours ago`);
+        } else {
+          setTimeAgo(`${Math.floor(diffInSeconds / 86400)} days ago`);
+        }
+      }, 1000);
+  
+      return () => clearInterval(interval);
+    }
+  }, [lastClickedTime]);
+
+  const handleClick = (item: any) => { 
+    setActiveItem(item); 
+    setShowTemplatePage(false); 
+    if (item === 'All') {
+      setLastClickedTime(new Date()); 
+    }
+  }
 
   const renderButtonContent = () => { switch (activeItem) { 
-    case 'connections': 
+    case 'Connections': 
     return '+ New Connection'; 
     case 'knowledge Bases': 
-    return <img className={styles.bellicon} src="/bell.png" alt="Bell Icon"  />; default: return '+ New Project'; } };
+    return <img className={styles.bellicon} src="/bell.png" alt="Bell Icon"  />; default: return '+ New Project'; 
+  } };
+   
+  const handleNewProjectClick = () => {
+    if (renderButtonContent() === '+ New Project') {
+      setShowTemplatePage(true); 
+    }
+  };
+  const closeTemplatePage = () => { setShowTemplatePage(false); };
+
     const renderBodyContent = () => { 
       switch (activeItem) 
       { 
@@ -24,29 +63,28 @@ function Dashboard() {
       <img className={styles.menuicon} src='/menu.png' alt="Menu" /> 
       </div> 
       <div className={styles.projectDetails}> <div className={styles.aiIcon}>AI</div> 
-      <span className={styles.time}>34 minutes ago</span> 
+      <img className={styles.profileimage2} src='/user.png'></img>
+      <span className={styles.time}>{timeAgo}</span> 
       </div> 
       </div> 
       ); 
       case 'Connections': 
       return <Connections />; 
       case 'knowledge Bases': 
-      return ( <div className={styles.projectCard}> 
-      <div className={styles.projectTitle}>Create a knowledge Base</div> 
-      <div className={styles.projectDetails}> <span>Reuse files across different workflows.</span> </div> 
+      return ( <div className={styles.documentCard}> 
+      <div className={styles.documentTitle}>Create a knowledge Base</div> 
+      <div className={styles.documentDetails}> <span>Reuse files across different workflows.</span> </div> 
+      <button className={styles.getStartedButton}>Get Started</button>
       </div> ); default: return null; } };
 
 
-
-
-
   return (
-    <div className={styles.container}>
-      <div className={styles.sidebar}>
+    <div className={styles.container} >
+      <div className={styles.sidebar} >
         <div className={styles.sidebarHeader}>
           <div className={styles.leftsidebar}>
-          <img src="/waveai.jpg" alt="WaveAi" />
-          <span >waveai</span>
+          <img src="/waveai.jpg" alt="YCodeAi" />
+          <span >YCodeAi</span>
           </div>
           <button>Free</button>
         </div>
@@ -108,7 +146,7 @@ function Dashboard() {
           <h1 className={styles.headertitle}> {activeItem} </h1>
           {activeItem === 'knowledge Bases' ? 
           ( <img className={styles.bellicon} src="/bell.png" alt="Bell Icon"  /> ) : 
-          ( <button className={styles.newProjectButton}> {renderButtonContent()} </button>
+          ( <button className={styles.newProjectButton}  onClick={handleNewProjectClick}> {renderButtonContent()} </button>
           )}
         </div>
         <div className={styles.search}>
@@ -117,19 +155,14 @@ function Dashboard() {
           <input type="text" placeholder="Search projects" />
           </div>
           </div>
-        <div className={styles.body}>
-        {/* <div className={styles.projectCard}>
-          <div className={styles.cardheader}>
-          <div className={styles.projectTitle}>Document Knowledge Base</div>
-          <img className={styles.menuicon} src='/menu.png'></img>
-          </div>
-          <div className={styles.projectDetails}>
-            <div className={styles.aiIcon}>AI</div>
-            <span className={styles.time}>34 minutes ago</span>
-          </div>
-        </div> */}
+        <div className={activeItem === 'knowledge Bases' ? styles.database : styles.body}>
         {renderBodyContent()}
       </div>
+      {showTemplatePage && ( <div> 
+        <div className={styles.templatePageContent} onClick={(e) => e.stopPropagation()}> 
+          <TemplatePage  onClose={closeTemplatePage}/> 
+        </div> </div> 
+      )}
      </div>
      </div>
   );
