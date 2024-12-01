@@ -4,6 +4,7 @@ import { MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
 import { BsDownload, BsUpload } from "react-icons/bs";
 import { RiEdit2Line } from "react-icons/ri";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { PiWechatLogoBold } from "react-icons/pi";
 
 import { FaDownload, FaUpload, FaCommentDots, FaQuestionCircle, FaPen, FaFile, FaLink, FaMicrophone, FaImage, FaVideo } from "react-icons/fa";
 import "./leftnav.css";
@@ -63,16 +64,16 @@ export default function Leftnav() {
           //     { name: "Prompts", icon: FaCommentDots },
           //   ],
           // },
-          // {
-          //   section: "llms",
-          //   label: "LLMs",
-          //   icon: FaCommentDots,
-          //   items: [
-          //     { name: "OpenAI", icon: FaCommentDots },
-          //     { name: "Anthropic", icon: FaCommentDots },
-          //     { name: "Google Bard", icon: FaCommentDots },
-          //   ],
-          // },
+          {
+            section: "llms",
+            label: "LLMs",
+            icon: PiWechatLogoBold,
+            items: [
+              { name: "OpenAI", icon: PiWechatLogoBold},
+              // { name: "Anthropic", icon: FaCommentDots },
+              // { name: "Google Bard", icon: FaCommentDots },
+            ],
+          },
           // {
           //   section: "knowledgeBases",
           //   label: "Knowledge Bases",

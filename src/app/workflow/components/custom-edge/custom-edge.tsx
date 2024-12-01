@@ -1,8 +1,9 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BaseEdge,
   EdgeLabelRenderer,
+  getSmoothStepPath,
   getStraightPath,
   useReactFlow,
 } from 'reactflow';
@@ -23,14 +24,19 @@ export default function CustomEdge({
 }) {
   const { setEdges } = useReactFlow();
   const [isHovered, setIsHovered] = useState(false);
+  const [edgePath, setEdgePath] = useState<any>();
 
   // Calculate edge path and label position
-  const [edgePath, labelX, labelY] = getStraightPath({
-    sourceX,
-    sourceY,
-    targetX,
-    targetY,
-  });
+  useEffect(()=>{
+
+    const [edgePath, labelX, labelY] = getSmoothStepPath({
+      sourceX,
+      sourceY,
+      targetX,
+      targetY,
+    });
+    setEdgePath(edgePath);
+  },[sourceX, sourceY, targetX, targetY]);
 
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => setIsHovered(false);
@@ -46,7 +52,7 @@ export default function CustomEdge({
         onClick={handleMouseClick}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+        style={{ width: '100%', height: '100%' }}
       >
         <BaseEdge 
           id={id} 

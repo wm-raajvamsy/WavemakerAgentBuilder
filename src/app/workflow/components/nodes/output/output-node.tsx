@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Handle, Position, NodeProps } from 'reactflow';
 import { FiArrowRight, FiEdit, FiInfo, FiX } from 'react-icons/fi';
 import { LuArrowRightCircle } from "react-icons/lu";
@@ -15,6 +15,10 @@ interface OutputNodeData {
 export default function OutputNode({ data, id, selected, isConnectable }: NodeProps<OutputNodeData>) {
   const [value, setValue] = useState(data.value);
   const [label, setLabel] = useState(data.label);
+
+  useEffect(() => {
+    setValue(data.value);
+  }, [data.value]);
 
   const handleValueChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue(event.target.value);

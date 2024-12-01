@@ -1,16 +1,18 @@
 'use client';
 import React from 'react';
 import "./header.css";
-export default function Header() {
+
+interface HeaderProps {
+  onSave?: () => void;
+  onRestore?: () => void;
+  onRun?: () => void;
+}
+
+export default function Header({ onSave, onRestore, onRun }: HeaderProps) {
     return (
         <div className="headerContainer">
             {/* Logo Section */}
             <div className="headerLogo">
-                {/* <img
-                    src="/logo.png"
-                    alt="Logo"
-                    className="logo"
-                /> */}
                 <span className="logoText">WaveAI</span>
             </div>
 
@@ -25,9 +27,24 @@ export default function Header() {
             {/* Breadcrumb and Actions */}
             <div className="headerActions">
                 <button className="actionButton greenButton">Share</button>
-                <button className="actionButton">Run</button>
-                <button className="actionButton">Save</button>
-                <button className="actionButton">Restore</button>
+                <button 
+                    className="actionButton" 
+                    onClick={onRun}
+                >
+                    Run
+                </button>
+                <button 
+                    className="actionButton" 
+                    onClick={onSave}
+                >
+                    Save
+                </button>
+                <button 
+                    className="actionButton" 
+                    onClick={onRestore}
+                >
+                    Restore
+                </button>
                 <button className="actionButton blackButton">Publish</button>
             </div>
         </div>
