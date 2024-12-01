@@ -1,0 +1,346 @@
+/* page.module.css */
+
+.container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .sidebar {
+    width: 250px;
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
+  }
+  
+  .sidebarHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .sidebarHeader img {
+    height: 40px;
+  }
+  .sidebartab1 {
+    margin-top: 40%;
+  }
+  .sidebartab2 {
+    margin-top: 90%;
+  }
+  .leftsidebar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .sidebarHeader button {
+     color: #000000;
+     border-width: 0.1px;
+     border-color: #a9a9a9;
+     width: 40px;
+     height: 20px;
+     border-radius: 3px;
+  }
+  
+  .sidebarContent {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sidebarItem {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+  }
+  .sidebarItem1 {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    justify-content: space-between;
+    cursor: pointer;
+    color: #a9a9a9;
+  }
+  .sidebarItem1 .plusbutton {
+    background-color: #ffffff;
+    color: #a9a9a9;
+    border-color: #ffffff;
+    border-width: 0;
+    font-size: 20px;
+  }
+  .sidebarItem2 {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+  }
+  .sidebarItem2.active { 
+    background-color: rgba(211, 211, 211, 0.5);
+    border-radius: 10px; 
+}
+  .sidebarItem3 {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+  }
+  .sidebarItem3 span {
+    font-size: 12px;
+    color: #a9a9a9;
+  }
+  .sidebarItem2 span {
+    font-size: 14px;
+    margin-top: 3px;
+  }
+  .sidebarItem2 img {
+      height: 14px;
+      margin-right: 20px;
+  }
+  .sidebarItem4 {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    flex-direction: row;
+  }
+  .leftsidebar2 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .leftsidebar3 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .exchangeimage {
+    height: 10px;
+    width: 10px;
+    margin-right: 20px;
+  }
+  .rightarrowimage {
+    height: 10px;
+    width: 10px;
+    margin-left: 60px;
+  }
+  .rightarrowimage2 {
+    height: 10px;
+    width: 10px;
+    margin-left: 20px;
+  }
+  .sidebarItem5 {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+
+  }
+  .sidebarItem4.active, .sidebarItem5.active { 
+    background-color: rgba(211, 211, 211, 0.5); border-radius: 10px; 
+}
+  .sidebarItem6 {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+  }
+  .sidebarItem7 {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    flex-direction: row;
+    background-color: #a9a9a9;
+    color: #000000;
+    border-radius: 10px;
+  }
+  .sidebarItem8 {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .buffimage {
+    height: 14px;
+    width: 14px;
+    margin-right: 20px;
+  }
+  .questionimage {
+    height: 14px;
+    width: 14px;
+    margin-right: 20px;
+  }
+  .profileimage {
+    height: 14px;
+    width: 14px;
+    margin-right: 20px;
+  }
+  .profileimage2 {
+    height: 14px;
+    width: 14px;
+    margin-right: 10px;
+  }
+  .eastarrowimage {
+    height: 10px;
+    width: 14px;
+  }
+ .upgradetext {
+    font-size: 14px;
+ }
+  
+  .sidebarFooter {
+    margin-top: 20px;
+  }
+  
+  .mainContent {
+    flex: 2;
+  }
+  .body {
+    flex: 1;
+    margin: 30px;
+  }
+  .database {
+    flex: 1;
+    margin: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .header {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2); 
+    height: 8%;
+    padding: 20px;
+    background-color: rgba(211, 211, 200, 0.1);
+  }
+  .headertitle {
+    font-size: 18px;
+  }
+  
+  .search {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    flex-direction: row;
+    border-radius: 10px;
+  }
+  
+  .search input {
+    width: 100%;
+    padding: 10px;
+    border: 0;
+    border-radius: 5px;
+    margin-left: 20px;
+  }
+  .searchimage {
+    height: 18px;
+    width: 18px;
+    background-color: #ffffff;
+  }
+  .bellicon {
+    height: 18px;
+    width: 18px;
+    margin-top: 1px;
+  }
+  
+  .newProjectButton {
+    padding: 5px;
+    padding-bottom: 20px;
+    background-color: #000000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 20px;
+  }
+  .getStartedButton {
+     padding: 5px;
+     padding-bottom: 20px;
+     background-color: #000000;
+     color: #fff;
+     border: none;
+     border-radius: 5px;
+     cursor: pointer;
+     height: 20px;
+     margin-top: 20px;
+    }
+  .containerCard {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .projectCard {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+    /* width: 30%; */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    flex: 0 1 30%;  
+    min-width: 50px;  
+    box-sizing: border-box;
+  }
+  .projectCard:hover {
+    transform: scale(1.05);
+  }
+  .documentCard {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+    width: 30%;
+    height: 200px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .documentCard:hover {
+    transform: scale(1.05);
+  }
+  .documentTitle {
+    margin-top: 40px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .documentDetails {
+    display: flex;
+    justify-content: center;
+  }
+  .cardheader {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .menuicon {
+    height: 14px;
+    width: 14px;
+  }
+  .projectTitle {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .time {
+    font-size: 12px;
+  }
+  .projectDetails {
+    display: flex;
+    /* justify-content: space-between; */
+  }
+  
+  .aiIcon {
+    width: 20px;
+    height: 20px;
+    background-color: #f0f2f5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 180px;
+    color: #000000;
+  }
+  
+  
