@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './page.module.css';
+import { useRouter } from 'next/navigation';
 
 interface TemplatePageProps {
     onClose: () => void; // onClose callback passed as a prop
@@ -24,6 +25,11 @@ interface TemplatePageProps {
   ];
   
   const TemplatePage: React.FC<TemplatePageProps> = ({ onClose }) => {
+    const router = useRouter();
+    const CreateNewProject = () => {
+        // Navigate to the settings page
+        router.push('');
+    };
     const containerRef = useRef(null);
     const [currentItem, setCurrentItem] = useState('All')
     const handleItemClick = (item: string) => {
@@ -66,7 +72,7 @@ interface TemplatePageProps {
         </div>
         <div className={styles.templates}>
           {templates.map((template, index) => (
-            <div key={index} className={styles.templateCard}>
+            <div key={index} className={styles.templateCard} onClick={template.title === 'New Project' ? CreateNewProject : undefined}>
               <h3>{template.title}</h3>
               <p>{template.description}</p>
               <img className={styles.icon} src={template.icon} />

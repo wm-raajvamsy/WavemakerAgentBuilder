@@ -4,39 +4,21 @@ import styles from './page.module.css';
 import { useState, useEffect } from 'react';
 import Connections from '../Connections/page';
 import TemplatePage from '../dialogs/page';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 function Dashboard() {
+  const router = useRouter(); 
+  const handleClick1 = () => {
+    // Navigate to the settings page
+    router.push('');
+  };
   const [activeItem, setActiveItem] = useState('All'); 
   const [showTemplatePage, setShowTemplatePage] = useState(false); 
-  const [lastClickedTime, setLastClickedTime] = useState<Date | null>(null); 
-  const [timeAgo, setTimeAgo] = useState<string>('Just now');
-  useEffect(() => {
-    if (lastClickedTime) {
-      const interval = setInterval(() => {
-        const now = new Date();
-        const diffInSeconds = Math.floor((now.getTime() - lastClickedTime.getTime()) / 1000);
-  
-        if (diffInSeconds < 60) {
-          setTimeAgo(`${diffInSeconds} seconds ago`);
-        } else if (diffInSeconds < 3600) {
-          setTimeAgo(`${Math.floor(diffInSeconds / 60)} minutes ago`);
-        } else if (diffInSeconds < 86400) {
-          setTimeAgo(`${Math.floor(diffInSeconds / 3600)} hours ago`);
-        } else {
-          setTimeAgo(`${Math.floor(diffInSeconds / 86400)} days ago`);
-        }
-      }, 1000);
-  
-      return () => clearInterval(interval);
-    }
-  }, [lastClickedTime]);
 
   const handleClick = (item: any) => { 
     setActiveItem(item); 
     setShowTemplatePage(false); 
-    if (item === 'All') {
-      setLastClickedTime(new Date()); 
-    }
   }
 
   const renderButtonContent = () => { switch (activeItem) { 
@@ -64,7 +46,7 @@ function Dashboard() {
       </div> 
       <div className={styles.projectDetails}> <div className={styles.aiIcon}>AI</div> 
       <img className={styles.profileimage2} src='/user.png'></img>
-      <span className={styles.time}>{timeAgo}</span> 
+      <span className={styles.time}>5 minutes ago</span> 
       </div> 
       </div> 
       ); 
@@ -76,7 +58,6 @@ function Dashboard() {
       <div className={styles.documentDetails}> <span>Reuse files across different workflows.</span> </div> 
       <button className={styles.getStartedButton}>Get Started</button>
       </div> ); default: return null; } };
-
 
   return (
     <div className={styles.container} >
@@ -135,7 +116,7 @@ function Dashboard() {
           <div className={styles.sidebarItem}>
           <div className={styles.leftsidebar3}>
           <img className={styles.profileimage} src='/user.png'></img>
-            <span>Praneeth Reddy</span>
+            <span onClick={handleClick1}>Praneeth Reddy</span>
           </div>
           </div>
           </div>
