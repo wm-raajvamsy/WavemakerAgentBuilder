@@ -1,0 +1,42 @@
+.inputbox {
+    width: 400px;
+    height: 28px;
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.subContainers {
+    margin-top: 24px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.icon {
+    cursor: pointer;
+    margin-left: 8px;
+}
+
+.iconContainer {
+    display: flex;
+    align-items: center;
+}
+
+.resetButton {
+    margin-top: 24px;
+}
