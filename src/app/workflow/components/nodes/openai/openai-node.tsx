@@ -10,7 +10,7 @@ interface OpenAINodeData {
   label: string;
   value: string;
   onDelete?: (id: string) => void;
-  showDialog?: any;
+  showSettingsDialog?: any;
   llmConfig: { temperature: number, openAIKey: string, model?: string, systemPrompt?: string};
 }
 // In openai-node.tsx
@@ -62,24 +62,20 @@ export const makeOpenAICall = async (config: {
   return result.choices[0].message.content;
 };
 export default function OpenAINode({ data, id, selected, isConnectable }: NodeProps<OpenAINodeData>) {
-  const [value, setValue] = useState(data.value);
+  const [datavalue, setDataValue] = useState('');
   const [label, setLabel] = useState(data.label);
   const [response, setResponse] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [systemPrompt, setSystemPrompt] = useState("You are a helpful assistant that follows instructions precisely.");
-  const [model, setModel] = useState("gpt-4o");
+  const [systemPrompt, setSystemPrompt] = useState(data.llmConfig.systemPrompt);
+  const [model, setModel] = useState(data.llmConfig.model);
   useEffect(()=>{
-    data.llmConfig.model = model;
-    data.llmConfig.systemPrompt = systemPrompt;
+    data.llmConfig.model = data.llmConfig.model || model;
+    data.llmConfig.systemPrompt = data.llmConfig.systemPrompt || systemPrompt;
   }, [])
-  // Effect to update value when data changes
-  useEffect(() => {
-    setValue(data.value);
-  }, [data.value]);
 
   const handleValueChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(event.target.value);
+    setDataValue(event.target.value);
     data.value = event.target.value;
   };
 
@@ -90,7 +86,7 @@ export default function OpenAINode({ data, id, selected, isConnectable }: NodePr
 
   const handleInfo = () => {
     console.log(`Showing info for node with id: ${id}`);
-    data.showDialog()
+    // data.showDialog()
   };
 
   const handleDelete = () => {
@@ -112,7 +108,7 @@ export default function OpenAINode({ data, id, selected, isConnectable }: NodePr
           <button className="control-button" onClick={handleEdit}>
             <FiEdit />
           </button>
-          <button className="control-button" onClick={handleInfo}>
+          <button className="control-button" onClick={data.showSettingsDialog}>
             <FiInfo />
           </button>
           <button className="control-button" onClick={handleDelete}>
@@ -147,7 +143,7 @@ export default function OpenAINode({ data, id, selected, isConnectable }: NodePr
           <label>Prompt</label>
           <textarea
             className="context-textarea" 
-            value={value}
+            value={datavalue}
             onChange={handleValueChange}
             placeholder="Enter your prompt here"
           />

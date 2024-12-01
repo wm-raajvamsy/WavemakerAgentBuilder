@@ -1,5 +1,5 @@
 'use client'
-import React, { useCallback, useMemo, useState, useImperativeHandle, forwardRef } from "react";
+import React, { useCallback, useMemo, useState, useImperativeHandle, forwardRef, useEffect } from "react";
 import ReactFlow, {
   addEdge,
   MiniMap,
@@ -22,7 +22,9 @@ import "./canvas.css";
 import CustomEdge from "../custom-edge/custom-edge";
 import OutputNode from "../nodes/output/output-node";
 import OpenAINode from "../nodes/openai/openai-node";
+import DocumentsNode from "../nodes/document/documents-node";
 const FLOW_KEY = "FLOW";
+const FLOW_STATE = "FLOW_STATE"
 const Canvas = forwardRef((props: any, ref:any) => {
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
@@ -30,8 +32,18 @@ const Canvas = forwardRef((props: any, ref:any) => {
   const [showDialog, setShowDialog] = useState(false);
   const [temperature, setTemperature] = useState(0);
   const [openAIKEY, setOpenAIKEY] = useState("");
+  const [dataFiles, setDataFiles] = useState<any>([])
 
-  const nodeTypes = useMemo(() => ({ Input: InputNode, Output: OutputNode, OpenAI: OpenAINode }), []);
+  useEffect(()=> {
+    const flowState = JSON.parse(localStorage.getItem(FLOW_STATE) as string);
+    if(flowState){
+      setTemperature(flowState.temperature);
+      setShowDialog(flowState.showDialog);
+      setOpenAIKEY(flowState.openAIKEY);  
+    }
+  }, [])
+
+  const nodeTypes = useMemo(() => ({ Input: InputNode, Output: OutputNode, OpenAI: OpenAINode, Documents: DocumentsNode }), []);
   const edgeTypes = useMemo(() => ({ CustomEdge: CustomEdge }), []);
   const defaultViewport = { x: 0, y: 0, zoom: 0.9 };
 
@@ -71,8 +83,9 @@ const Canvas = forwardRef((props: any, ref:any) => {
           label: type.toLowerCase(), 
           value: '', 
           onDelete: deleteNode,
-          showDialog: showSettingsDialog,
-          llmConfig: type == "openai" ? llmConfig : {}
+          showSettingsDialog: showSettingsDialog,
+          llmConfig: type == "openai" ? llmConfig : {},
+          setDataFiles: setDataFiles
         },
       })
 
@@ -96,6 +109,7 @@ const Canvas = forwardRef((props: any, ref:any) => {
     if (rfInstance) {
       const flow = rfInstance.toObject();
       localStorage.setItem(FLOW_KEY, JSON.stringify(flow));
+      localStorage.setItem(FLOW_STATE, JSON.stringify({temperature, showDialog, openAIKEY}));
     }
   }, [rfInstance]);
 
@@ -107,6 +121,13 @@ const Canvas = forwardRef((props: any, ref:any) => {
         const { x = 0, y = 0, zoom = 1 } = flow.viewport;
         setNodes(flow.nodes || []);
         setEdges(flow.edges || []);
+      }
+
+      const flowState = JSON.parse(localStorage.getItem(FLOW_STATE) as string);
+      if(flowState){
+        setTemperature(flowState.temperature);
+        setShowDialog(flowState.showDialog);
+        setOpenAIKEY(flowState.openAIKEY);  
       }
     };
  
@@ -134,19 +155,8 @@ const Canvas = forwardRef((props: any, ref:any) => {
         
         if (sourceNode) {
           // If the current node is an OpenAI node, call makeOpenAICall
-          console.log(sourceNode, "source node")
-          console.log(node, "node")
           if (sourceNode.type === 'OpenAI') {
             try {
-              // Create a temporary node component to access makeOpenAICall
-              const tempNode = {
-                data: {
-                  ...node.data,
-                  value: sourceNode.data.value // Set the value from the source node
-                },
-                id: node.id
-              };
-  
               const OpenAINodeComponent = await import('../nodes/openai/openai-node');
               const makeOpenAICall = OpenAINodeComponent.makeOpenAICall;
               if(Object.keys(sourceNode.data.llmConfig).length == 0){
@@ -157,13 +167,25 @@ const Canvas = forwardRef((props: any, ref:any) => {
                   systemPrompt: "Your system prompt here" // Optional default
                 };
               }
+              let processedValue = sourceNode.data.value;
+              const connectionsToThis = connections.filter(conn => conn.target === sourceNode.id);
+              connectionsToThis.forEach(connection => {
+                const sourceNode = nodes.find(n => n.id === connection.source);
+                if (sourceNode) {
+                  const input_id = `#${sourceNode.id.slice(0,3)}-${sourceNode.data.id}`;
+                  processedValue = processedValue.includes(input_id) 
+                    ? processedValue.replace(input_id, sourceNode.data.value) 
+                    : processedValue;
+                }
+              });
+              
               // Bind the context and call the method
               const response = await makeOpenAICall({
                 openAIKey: sourceNode.data.llmConfig.openAIKey || openAIKEY,
                 temperature: sourceNode.data.llmConfig.temperature,
                 model: sourceNode.data.llmConfig.model,
                 systemPrompt: sourceNode.data.llmConfig.systemPrompt,
-                value: sourceNode.data.value
+                value: processedValue
               });  
               // Update the node's data with the response
               flowResult.push({
@@ -183,14 +205,44 @@ const Canvas = forwardRef((props: any, ref:any) => {
               console.error('Error processing OpenAI node:', error);
               return node;
             }
-          } else {
+          } else if (sourceNode.type == "Documents"){
+            if(node.type === "OpenAI"){
+              const input_id = "#"+sourceNode.id.slice(0,3)+"-"+sourceNode.data.id;
+              console.log(node.data.value.replace(input_id,sourceNode.data.value), "OPENAI REPLACE VAL")
+              return {
+                ...node,
+                data: {
+                  ...node.data,
+                  value: node.data.value.includes(input_id) ? node.data.value.replace(input_id,sourceNode.data.value) : sourceNode.data.value
+                }
+              };  
+            }
+            return {
+              ...node,
+              data: {
+                ...node.data,
+                value: dataFiles.join(',')
+              }
+            };
+          }
+          else {
             // For non-OpenAI nodes, update value from source
             flowResult.push({
               source: sourceNode.data,
               target: node.data,
               value: sourceNode.data.value
             });
-  
+            if(node.type === "OpenAI"){
+              const input_id = "#"+sourceNode.id.slice(0,3)+"-"+sourceNode.data.id;
+              console.log(node.data.value.replace(input_id,sourceNode.data.value), "OPENAI REPLACE VAL")
+              return {
+                ...node,
+                data: {
+                  ...node.data,
+                  value: node.data.value.includes(input_id) ? node.data.value.replace(input_id,sourceNode.data.value) : sourceNode.data.value
+                }
+              };  
+            }
             return {
               ...node,
               data: {
@@ -277,7 +329,10 @@ const Canvas = forwardRef((props: any, ref:any) => {
             </div>
             <div className="field">
               <label>API Key</label>
-              <input type="text" value={openAIKEY} onChange={(e)=> setOpenAIKEY(e.target.value)} />
+              <input type="text" value={openAIKEY}   onChange={(e) => {
+                  console.log('Input changed:', e.target.value);
+                  setOpenAIKEY(e.target.value);
+                }} />
             </div>
           </div>
         </div>

@@ -45,7 +45,7 @@ export default function InputNode({ data, id, selected, isConnectable }: NodePro
           <LuArrowRightCircle />
         </span>
         <span className="input-node-title">{label}</span>
-        <span className="input-node-tag">in-{data.id}</span>
+        <span className="input-node-tag">inp-{data.id}</span>
         <div className="input-node-controls">
           <button className="control-button" onClick={handleEdit}>
             <FiEdit />
@@ -60,7 +60,7 @@ export default function InputNode({ data, id, selected, isConnectable }: NodePro
       </div>
       <textarea
         className="input-node-textarea"
-        placeholder={`Value for {in-${data.id}}`}
+        placeholder={`Value for {inp-${data.id}}`}
         value={value}
         onChange={handleValueChange}
       />

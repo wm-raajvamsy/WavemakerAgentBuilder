@@ -39,7 +39,7 @@ export default function Leftnav() {
             icon: BsDownload,
             items: [
               { name: "Input", icon: RiEdit2Line },
-              // { name: "Files", icon: FaFile },
+              { name: "Documents", icon: FaFile },
               // { name: "URL", icon: FaLink },
               // { name: "Audio", icon: FaMicrophone },
               // { name: "Image", icon: FaImage },

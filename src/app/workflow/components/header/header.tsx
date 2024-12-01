@@ -20,13 +20,10 @@ export default function Header({ onSave, onRestore, onRun }: HeaderProps) {
             <div className="headerNav">
                 <button className="navButton">Workflow</button>
                 <button className="navButton">Export</button>
-                <button className="navButton">Analytics</button>
-                <button className="navButton">Manager</button>
             </div>
 
             {/* Breadcrumb and Actions */}
             <div className="headerActions">
-                <button className="actionButton greenButton">Share</button>
                 <button 
                     className="actionButton" 
                     onClick={onRun}
