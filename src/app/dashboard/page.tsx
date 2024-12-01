@@ -1,10 +1,9 @@
 'use client'
 import React from 'react';
 import styles from './page.module.css';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Connections from '../Connections/page';
 import TemplatePage from '../dialogs/page';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 function Dashboard() {
@@ -39,7 +38,9 @@ function Dashboard() {
       switch (activeItem) 
       { 
         case 'All': 
-      return ( <div className={styles.projectCard}> 
+      return ( 
+        <div className={styles.containerCard}>
+      <div className={styles.projectCard}> 
       <div className={styles.cardheader}> 
       <div className={styles.projectTitle}>Document Knowledge Base</div> 
       <img className={styles.menuicon} src='/menu.png' alt="Menu" /> 
@@ -49,6 +50,7 @@ function Dashboard() {
       <span className={styles.time}>5 minutes ago</span> 
       </div> 
       </div> 
+      </div>
       ); 
       case 'Connections': 
       return <Connections />; 
