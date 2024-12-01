@@ -1,0 +1,4 @@
+.react-flow__edge-path {
+    stroke: rgba(156, 163, 175, 0.5); /* stroke-neutral-400/50 */
+    stroke-width: 2px; /* stroke-[2px] */
+  }
